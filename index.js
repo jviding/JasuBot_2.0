@@ -23,12 +23,12 @@ io.on('connection', function(socket){
     //saveMsg(msg);
   });
   socket.on('join', function() {
-  	Msg.find( function (err,messages,count){
-  		messages.forEach(function(msg) {
-  			io.to(socket.id).emit('chat message', msg);
+  	//Msg.find( function (err,messages,count){
+  	//	messages.forEach(function(msg) {
+  	//		io.to(socket.id).emit('chat message', msg);
   			//console.log(msg);
   			//msg.remove();
-  		});
+  	//	});
 	});
   });
 });
