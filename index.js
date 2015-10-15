@@ -66,4 +66,4 @@ function botSays(message) {
 	else if (message['channel'] === '#tuula62a') {
 		tuulabot.writeMessage(message['message']);
 	}
-};
+};*/
