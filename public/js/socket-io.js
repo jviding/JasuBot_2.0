@@ -10,14 +10,12 @@ $('form').submit(function(){
             time: new Date().getTime()
         }
         socket.emit('chat message', msg);
-        console.log(msg);
         $('#m').val('');
     }
     return false;
 });
 
 socket.on('chat message', function(msg){
-    console.log(msg);
     if (msg['channel'] === channel) {
         $('#messages').append($('<li>').text(msg.user+': '+msg['message']));
     }
