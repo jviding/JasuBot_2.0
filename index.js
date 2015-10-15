@@ -15,7 +15,7 @@ app.get('/', function(req, res){
 app.get('/tuula', function(req, res){
   res.sendFile(__dirname + '/tuula.html');
 });
-
+/*
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
@@ -31,12 +31,12 @@ io.on('connection', function(socket){
   		});
 	});
   });
-});
+});*/
 
 http.listen(3000, function(){
   console.log('Server listening on *:3000');
 });
-
+/*
 var Bot = require('./ircBot/bot');
 //bot	//nickname, server to connect, channel to join
 var jasubot = new Bot("Jausnator","irc.stealth.net","#bottitesti");
