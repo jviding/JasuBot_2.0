@@ -4,8 +4,8 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 //database
-var mongoose = require('mongoose');
-var Msg = mongoose.model('Message');
+//var mongoose = require('mongoose');
+//var Msg = mongoose.model('Message');
 
 app.use(express.static('public'));
 
@@ -20,7 +20,7 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
     //botSays(msg);
-    saveMsg(msg);
+    //saveMsg(msg);
   });
   socket.on('join', function() {
   	Msg.find( function (err,messages,count){
@@ -53,12 +53,12 @@ tuulabot.setMessageReader(function(message) {
 	io.emit('chat message', message);
 	saveMsg(message);
 });
-*/
+
 function saveMsg(msg) {
 	new Msg(msg).save();
 	//console.log(msg);
 }
-/*
+
 function botSays(message) {
 	if (message['channel'] === '#bottitesti') {
 		jasubot.writeMessage(message['message']);
