@@ -29,7 +29,7 @@ io.on('connection', function(socket){
   			//console.log(msg);
   			//msg.remove();
   	//	});
-	});
+	//});
   });
 });
 
