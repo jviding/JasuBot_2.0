@@ -15,11 +15,11 @@ app.get('/', function(req, res){
 app.get('/tuula', function(req, res){
   res.sendFile(__dirname + '/tuula.html');
 });
-/*
+
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
-    botSays(msg);
+    //botSays(msg);
     saveMsg(msg);
   });
   socket.on('join', function() {
@@ -31,7 +31,7 @@ io.on('connection', function(socket){
   		});
 	});
   });
-});*/
+});
 
 http.listen(3000, function(){
   console.log('Server listening on *:3000');
@@ -53,12 +53,12 @@ tuulabot.setMessageReader(function(message) {
 	io.emit('chat message', message);
 	saveMsg(message);
 });
-
+*/
 function saveMsg(msg) {
 	new Msg(msg).save();
 	//console.log(msg);
 }
-
+/*
 function botSays(message) {
 	if (message['channel'] === '#bottitesti') {
 		jasubot.writeMessage(message['message']);
