@@ -1,0 +1,12 @@
+{
+  "name": "JasuBot_2.0",
+  "version": "0.0.1",
+  "description": "jasubot is here",
+  "main": "index.js",
+  "dependencies": {
+    "express": "latest",
+    "socket.io": "latest",
+    "irc": "latest",
+    "mongoose": "latest"
+  }
+}

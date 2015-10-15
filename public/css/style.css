@@ -1,0 +1,40 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; background: #202020; color: white; }
+form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+form input { border: 0; padding: 4px; width: 87%; margin-right: .5%; }
+form button { width: 12%; background: #003399; border: none; padding: 4px; color: white; }
+#messages { list-style-type: none; margin: 0; padding: 0; padding-bottom: 40px; font-style:  }
+#messages li { font: white; padding: 5px 10px; background: #202020; }
+#messages li:nth-child(odd) { background: #181818; }
+.bookmark { 
+  background: #101010;
+  width: 40px;
+  height: 35px;
+  position: fixed;
+  right: 0;
+  top: 10px;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items; center;
+}
+#channellist {
+  border: 1px solid black;
+  transition:           width 500ms ease;
+    -moz-transition:    width 500ms ease;
+    -ms-transition:     width 500ms ease;
+    -o-transition:      width 500ms ease;
+    -webkit-transition: width 500ms ease;
+}
+.channels {
+  background: #101010; 
+  width: 0px; 
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 48px;
+  border-radius: 8px 0 0 8px;
+}
+li {
+  list-style-type: none;
+}
