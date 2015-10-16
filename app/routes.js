@@ -20,10 +20,26 @@ module.exports = function(app, passport) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/pikku2',
+		successRedirect : '/profile',
 		failureRedirect : '/signup',
 		failureFlash : true
 	}));
+
+	//FACEBOOK ROUTES
+	app.get('/auth/facebook', passport.authenticate('facebook', {scope : 'email'}));
+
+	app.get('/auth/facebook/callback',
+		passport.authenticate('facebook', {
+			successRedirect : '/profile',
+			failureRedirect : '/'
+		}));
+
+	//profile
+	app.get('/profile', isLoggedIn, function(req, res) {
+		res.render('profile.ejs', {
+			user : req.user
+		});
+	});
 
 	//#pikku2
 	app.get('/pikku2', isLoggedIn, function(req, res) {
@@ -38,6 +54,26 @@ module.exports = function(app, passport) {
 			user : req.user
 		});
 	});
+
+	//AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT)
+	
+	//locally
+	app.get('/connect/local', function(req, res) {
+		res.render('connect-local.ejs', {message: req.flash('loginMessage')});
+	});
+	app.post('/connect/local', passport.authenticate('local-signup', {
+		successRedirect : '/profile',
+		failureRedirect : '/connect/local',
+		failureFlash : true
+	}));
+
+	//Facebook
+	app.get('/connect/facebook', passport.authorize('facebook', {scope: 'email'}));
+	app.get('/connect/facebook/callback',
+		passport.authorize('facebook', {
+			successRedirect : '/profile',
+			failureRedirect : '/'
+		}));
 
 	//LOGOUT
 	app.get('/logout', function(req, res) {
@@ -63,5 +99,5 @@ function notLoggedIn(req, res, next) {
 		return next();
 	}
 	//if they are, redirect them to the home page
-	res.redirect('/pikku2');
+	res.redirect('/profile');
 }
