@@ -1,0 +1,52 @@
+
+<html>
+  <head>
+    <title>JasuBot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+  <div>
+    <div class="bookmark" id="bookmark">
+      <div><h1 id="arrow">&#8592;</h1></div>
+    </div>
+    <div class="channels" id="channellist">
+        <h3 id="joined" align="center"></h3><br>
+        <ul align="center">
+          <li>#pikku2</li><br>
+          <li><a href="/tuula62">#tuula62</a></li>
+        </ul>
+    </div>
+  </div>
+    <!-- Messages be here -->
+    <ul id="messages"></ul>
+    <!-- Input box -->
+    <form action="">
+      <input id="m" autocomplete="off"/><button>Send</button>
+    </form>
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>var channel = '#bottitesti'</script>
+    <script src="js/slider.js"></script>
+    <script src="js/socket-io.js"></script>
+  </body>
+</html>
+
+<!--
+<div class="row">
+
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>password</strong>: <%= user.local.password %>
+                    </p>
+
+            </div>
+        </div>
+
+    </div>-->

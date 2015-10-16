@@ -13,5 +13,4 @@ module.exports = {
 };
 
 mongoose.model('Message', Message);
-//mongoose.connect('mongodb://localhost/messages');
 

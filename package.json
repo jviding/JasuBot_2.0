@@ -7,7 +7,18 @@
     "express": "latest",
     "socket.io": "latest",
     "irc": "latest",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "passport-facebook": "latest",
+    "bcrypt-nodejs": "latest",
+    "express-session": "latest",
+    "morgan": "latest",
+    "cookie-parser": "latest",
+    "body-parser": "latest",
+    "ejs": "latest",
+    "connect-flash": "latest",
+    "method-override": "latest"
   },
   "scripts": {
     "start": "node index"
