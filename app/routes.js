@@ -1,12 +1,12 @@
 module.exports = function(app, passport) {
 
 	//HOME PAGE
-	app.get('/', function(req, res) {
+	app.get('/', notLoggedIn, function(req, res) {
 		res.render('index.ejs');
 	});
 
 	//LOGIN
-	app.get('/login', function(req, res) {
+	app.get('/login', notLoggedIn, function(req, res) {
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 	app.post('/login', passport.authenticate('local-login', {
@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
 	}));
 
 	//SIGNUP
-	app.get('/signup', function(req, res) {
+	app.get('/signup', notLoggedIn, function(req, res) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 	app.post('/signup', passport.authenticate('local-signup', {
@@ -54,4 +54,14 @@ function isLoggedIn(req, res, next) {
 	}
 	//if they aren't, redirect them to the home page
 	res.redirect('/');
+}
+
+//route middleware to make sure a user is not logged in
+function notLoggedIn(req, res, next) {
+	//if user is not authenticated in the session, carry on
+	if (!req.isAuthenticated()) {
+		return next();
+	}
+	//if they are, redirect them to the home page
+	res.redirect('/pikku2');
 }

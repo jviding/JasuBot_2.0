@@ -38,8 +38,8 @@ http.listen(port, function(){
   console.log('Server listening on port: 3000');
 });
 
-/*
-var Msg = mongoose.model('Message');
+
+var Msg = require('./app/models/message');
 
 app.use(express.static('public'));
 
@@ -53,20 +53,20 @@ app.get('/tuula', function(req, res){
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
-    //botSays(msg);
-    //saveMsg(msg);
+    botSays(msg);
+    saveMsg(msg);
   });
   socket.on('join', function() {
-  	//Msg.find( function (err,messages,count){
-  		//messages.forEach(function(msg) {
-  			//io.to(socket.id).emit('chat message', msg);
+  	Msg.find( function (err,messages,count){
+  		messages.forEach(function(msg) {
+  			io.to(socket.id).emit('chat message', msg);
   			//console.log(msg);
   			//msg.remove();
-  		//});
-	  //});
+  		});
+	  });
   });
-});*/
-/*
+});
+
 var Bot = require('./ircBot/bot');
 //bot	//nickname, server to connect, channel to join
 var jasubot = new Bot("Jausnator","irc.stealth.net","#bottitesti");
@@ -96,4 +96,4 @@ function botSays(message) {
 	else if (message['channel'] === '#tuula62a') {
 		tuulabot.writeMessage(message['message']);
 	}
-};*/
+};
