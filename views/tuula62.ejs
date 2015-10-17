@@ -4,6 +4,10 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
   <body>
+
+<p style="display: none;" id="local_name"><% if (user.facebook.token) { %><%= user.facebook.givenName %><% } %></p>
+<p style="display: none;" id="fb_name"><% if (user.local.username) { %><%= user.local.username %><% } %></p>
+
   <div>
     <div class="bookmark" id="bookmark">
       <div><h1 id="arrow">&#8592;</h1></div>

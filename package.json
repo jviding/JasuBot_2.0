@@ -18,7 +18,8 @@
     "body-parser": "latest",
     "ejs": "latest",
     "connect-flash": "latest",
-    "method-override": "latest"
+    "method-override": "latest",
+    "node-hashtable": "latest"
   },
   "scripts": {
     "start": "node index"
