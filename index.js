@@ -9,13 +9,13 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var flash    = require('connect-flash');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var configDB = require('./config/database');
+//var mongoose = require('mongoose');
+//var configDB = require('./config/database');
 var sockets = require('./app/sockets');
 
 //configuration
 require('./config/passport')(passport);
-mongoose.connect(configDB.url); //connect to database 
+//mongoose.connect(configDB.url); //connect to database 
 
 //set up express application
 app.use(morgan('dev')); //log every request to console

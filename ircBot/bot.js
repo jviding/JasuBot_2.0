@@ -86,8 +86,13 @@ module.exports = function Bot(name, server, channel) {
     else if (message.split(' ')[0] === '/whois' && message.split(' ')[1] != null) {
       return bot.send('whois', message.split(' ')[1]);
     }
-    var line = '[' + username + ']: ' + message;
-    bot.say(channel, line);
+    if (username === null) {
+      bot.say(channel, message);
+    }
+    else {
+      var line = '[' + username + ']: ' + message;
+      bot.say(channel, line);
+    }
     readCommand(message);
   };
 

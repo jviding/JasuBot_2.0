@@ -1,42 +1,38 @@
 var Bot = require('./../ircBot/bot');
-var Msg = require('./models/message');
 
-module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, quakeChannel, io) {
+module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, quakeChannel) {
 
   //bot             //nickname, server to connect, channel to join
   var ircbot = new Bot(botname,ircServer,ircChannel);
   var quakebot = new Bot(botname,quakeServer,quakeChannel);
 
+  var msgToParent = null;
+
   ircbot.kickStart();
   ircbot.setMessageReader(function(message) {
-    io.emit('chat message', message);
-    saveMsg(message);
+    if (msgToParent) {
+      msgToParent(message);
+    }
   });
 
   quakebot.kickStart();
   quakebot.setMessageReader(function(message) {
-    io.emit('chat message', message);
-    saveMsg(message);
+    if (msgToParent) {
+      msgToParent(message);
+    }
   });
 
-  function saveMsg(msg) {
-    new Msg(msg).save();
-  };
-
-  function botSays(message) {
+  function botSays(message, callback) {
     if (message['channel'] === ircChannel) {
       ircbot.writeMessage(message['user'], message['message']);
     }
     else if (message['channel'] === quakeChannel) {
       quakebot.writeMessage(message['user'], message['message']);
     }
-    saveMsg(message);
   };
 
   function botSaid(callback) {
-    Msg.find(function (err, messages, count) {
-          callback(messages);
-    });
+    msgToParent = callback;
   };
 
   return {

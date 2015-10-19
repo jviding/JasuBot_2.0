@@ -1,6 +1,7 @@
 var Bot = require('./jasubot');
 var hashTable = require('node-hashtable');
 var data = require('./../config/botdata').getData();
+var Msg = require('./models/message');
 
 var botname      = data.botname;
 var ircServer    = data.ircServer;
@@ -10,17 +11,20 @@ var quakeChannel = data.quakeChannel;
 
 module.exports = function Sockets(io) {
 
-  	var Jasubot = new Bot(botname, ircServer, ircChannel, quakeServer, quakeChannel, io);
+  	var Jasubot = new Bot(botname, ircServer, ircChannel, quakeServer, quakeChannel);
+    Jasubot.botSaid(function(item) {
+      io.emit('chat message', item);
+      saveMsg(item);
+    });
 
   	io.on('connection', function(socket){
   		socket.on('chat message', function(msg){ //Message from client - emit to all
   			io.emit('chat message', msg);
-    		say(msg);
+    		sayAndSave(msg); // send message to IRC and save message to database
   		});
   		socket.on('join', function(item) { //A new client joins
   			newClientJoined(socket, item); //Broadcast other clients a new client joined
-  			
-  			Jasubot.botSaid(function(messages) { //Send message history to new client
+        msgHistory(item.channel, function(messages) { //Send message history to new client
   				messages.forEach(function(msg) {
   					io.to(socket.id).emit('chat message', msg);
   				});
@@ -35,20 +39,30 @@ module.exports = function Sockets(io) {
   				var msg = {
       				user: null,
       				channel: item.channel,
-      				message: item.user + ' has disconnected.',
+      				message: 'User < ' + item.user + '> has disconnected.',
       				time: new Date().getTime()
     			};
     			io.emit('chat message', msg); //Tell other clients a client left
-  				msg.user = 'Bot';
-    			say(msg);
+    			sayAndSave(msg);
   			});
   		});
 	});
 
 	//send message to IRC and save to database
-	function say(msg) {
+	function sayAndSave(msg) {
     	Jasubot.botSays(msg);
+      saveMsg(msg);
 	};
+
+  function saveMsg(msg) {
+    new Msg(msg).save();
+  };
+
+  function msgHistory(channel, callback) {
+    Msg.find(function (err, messages, count) {
+      callback(messages);
+    }).where('channel',channel).limit(300);//.gte('time',new Date().getTime()-10000);
+  };
 
 	//new client joined the chat
 	function newClientJoined(socket, item) {
@@ -56,12 +70,11 @@ module.exports = function Sockets(io) {
 		var msg = {
 			user: null, 
 			channel: item.channel, 
-			message: item.user + ' has joined.', 
+			message: 'User < ' + item.user + '> has joined ' + item.channel, 
 			time: new Date().getTime()
 		};
     	socket.broadcast.emit('chat message', msg);
-    	msg.user = 'Bot';
-    	say(msg);
+    	Jasubot.botSays(msg);
 	};
 
 	//welcome new user

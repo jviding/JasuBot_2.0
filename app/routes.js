@@ -9,17 +9,17 @@ module.exports = function(app, passport) {
 	app.get('/login', notLoggedIn, function(req, res) {
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
-	app.post('/login', passport.authenticate('local-login', {
+	app.post('/login', notLoggedIn, passport.authenticate('local-login', {
 		successRedirect : '/profile',
 		failureRedirect : '/login',
 		failureFlash : true
 	}));
 
-	//SIGNUP
-	app.get('/signup', notLoggedIn, function(req, res) {
+	//SIGNUP - must be logged in with social app first to create local account
+	app.get('/signup', isLoggedIn, function(req, res) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
-	app.post('/signup', passport.authenticate('local-signup', {
+	app.post('/signup', isLoggedIn,  passport.authenticate('local-signup', {
 		successRedirect : '/profile',
 		failureRedirect : '/signup',
 		failureFlash : true
