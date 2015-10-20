@@ -23,11 +23,16 @@ module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, q
   });
 
   function botSays(message, callback) {
-    if (message['channel'] === ircChannel) {
-      ircbot.writeMessage(message['user'], message['message']);
+    try {
+      if (message['channel'] === ircChannel) {
+        ircbot.writeMessage(message['user'], message['message']);
+      }
+      else if (message['channel'] === quakeChannel) {
+        quakebot.writeMessage(message['user'], message['message']);
+      }
     }
-    else if (message['channel'] === quakeChannel) {
-      quakebot.writeMessage(message['user'], message['message']);
+    catch (err) {
+      console.log('Bot failed to send a message to ' + message['channel'] + '...\n'+err.message);
     }
   };
 
@@ -35,9 +40,30 @@ module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, q
     msgToParent = callback;
   };
 
+  function restartBot(channel) {
+      if (channel === ircChannel) {
+        disconnectBot(ircbot);
+        ircbot.kickStart();
+      }
+      else if (channel === quakeChannel) {
+        disconnectBot(quakebot);
+        quakebot.kickStart();
+      }
+  };
+
+  function disconnectBot(bot) {
+    try {
+      bot.disconnect();
+    }
+    catch (err) {
+      console.log("Disconnecting failed.\n" + err.message);
+    }
+  };
+
   return {
     botSays: botSays,
-    botSaid: botSaid
+    botSaid: botSaid,
+    botRestart: restartBot
   }
 
 };

@@ -11,21 +11,10 @@
 <div class="container">
 <div class="jumbotron text-center">
 
-    <h1><span class="fa fa-user"></span> Manage users</h1><br>
-    
-    <!-- remove, edit true/false channels -->
-    <div class="table-responsive">
-    <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>#pikku2</th>
-        <th>#tuula62</th>
-      </tr>
-    </thead>
-    <tbody id="users"></tbody>
-    </table>
-    </div>
+    <h1><span class="fa fa-user"></span> Manage bots</h1><br>
+    <h3>Restart:</h3>
+    <button type="submit" onclick="restartIrc();" class="btn btn-warning btn-lg">IRC</button>
+    <button type="submit" onclick="restartQuake();" class="btn btn-warning btn-lg">Quake</button>
 
     <br>
     <h3><a href="/profile">Go back to profile</a></h3>
@@ -34,6 +23,6 @@
 </div>
 <script src="js/socket.io-1.2.0.js"></script>
 <script src="js/jquery-1.11.1.js"></script>
-<script src="js/manageUsers.js"></script>
+<script src="js/manageBots.js"></script>
 </body>
 </html>

@@ -68,6 +68,11 @@ module.exports = function(app, passport) {
 		res.render('admin.ejs');
 	});
 
+	//Manage bots
+	app.get('/managebots', isLoggedAdmin, function(req, res) {
+		res.render('managebots.ejs');
+	});
+
 	//AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT)
 	
 	//locally

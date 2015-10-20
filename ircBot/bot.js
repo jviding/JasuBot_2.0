@@ -28,6 +28,11 @@ module.exports = function Bot(name, server, channel) {
     });
   };
 
+  function disconnectBot() {
+    console.log("Disconnecting from " + server + "...");
+    bot.disconnect("Disconnected from " + server + ".");
+  };
+
   function addListeners() {
     bot.addListener('message', function(from, to, text) {
       printToWeb({user: from, channel: to, message: text , time: new Date().getTime()});
@@ -112,6 +117,7 @@ module.exports = function Bot(name, server, channel) {
 
   return {
     kickStart: startBot,
+    disconnect: disconnectBot,
     setMessageReader: setMessageReader,
     writeMessage: writeIRCMessage
   };

@@ -44,13 +44,18 @@ module.exports = function Sockets(io) {
       				time: new Date().getTime()
     			};
     			io.emit('chat message', msg); //Tell other clients a client left
-    			sayAndSave(msg);
   			});
   		});
       socket.on('get users', function () {
         findUsers(function (user) {
-          io.to(socket.id).emit('get users', user);
+          io.to(socket.id).emit('get users', {user: user, id: user.id});
         });
+      });
+      socket.on('update user', function (item) {
+        updateUser(item.id, item.channel, item.value);
+      });
+      socket.on('restart bot', function (channel) {
+        Jasubot.botRestart(channel);
       });
 	});
 
@@ -89,6 +94,13 @@ module.exports = function Sockets(io) {
     });
   };
 
+  function updateUser(id, channel, value) {
+    User.findById(id, function (err, user) {
+      user.channels[channel] = value;
+      user.save();
+    });
+  };
+
 	//new client joined the chat
 	function newClientJoined(socket, item) {
 		hashTable.set(socket.id, {user: item.user, channel: item.channel});
@@ -99,7 +111,6 @@ module.exports = function Sockets(io) {
 			time: new Date().getTime()
 		};
     	socket.broadcast.emit('chat message', msg);
-    	sayAndSave(msg);
 	};
 
 	//welcome new user
