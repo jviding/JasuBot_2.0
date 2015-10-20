@@ -44,14 +44,14 @@ module.exports = function Bot(name, server, channel) {
       }
     });
     bot.addListener('names', function(channel, nicks) {
-      printToWeb({user: 'Bot', channel: channel, message: JSON.stringify(nicks), time: new Date().getTime()});
+      printToWeb({user: null, channel: channel, message: JSON.stringify(nicks), time: new Date().getTime()});
     });
     bot.addListener('notice', function(nick, to, text, message) {
       var message = nick + ': [Notice(' + to + ')]: ' + text;
       printToWeb({user: null, channel: channel, message: message, time: new Date().getTime()});
     });
     bot.addListener('whois', function(nick) {
-      printToWeb({user: 'Bot', channel: channel, message: JSON.stringify(nick), time: new Date().getTime()});
+      printToWeb({user: null, channel: channel, message: JSON.stringify(nick), time: new Date().getTime()});
     });
     bot.addListener('action', function(from, to, text, message) {
       var message = ' * ' + from + ' ' + text;
@@ -100,7 +100,7 @@ module.exports = function Bot(name, server, channel) {
   function botsay(message) {
     bot.say(channel, message);
     printToWeb({
-      user:'Bot',
+      user:null,
       channel:channel,
       message:message,
       time: new Date().getTime()

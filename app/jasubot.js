@@ -9,14 +9,14 @@ module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, q
   var msgToParent = null;
 
   ircbot.kickStart();
-  ircbot.setMessageReader(function(message) {
+  ircbot.setMessageReader(function (message) {
     if (msgToParent) {
       msgToParent(message);
     }
   });
 
   quakebot.kickStart();
-  quakebot.setMessageReader(function(message) {
+  quakebot.setMessageReader(function (message) {
     if (msgToParent) {
       msgToParent(message);
     }

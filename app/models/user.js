@@ -12,7 +12,12 @@ var userSchema = mongoose.Schema({
 		email : String,
 		givenName : String,
 		familyName : String
-	}
+	},
+	channels: {
+		pikku2: Boolean,
+		tuula62: Boolean
+	},
+	admin : Boolean
 });
 
 //generating a hash

@@ -8,13 +8,13 @@ var configAuth = require('./auth');
 module.exports = function(passport) {
 
 	//for serializing the user for the session
-	passport.serializeUser(function(user, done) {
+	passport.serializeUser(function (user, done) {
 		done(null, user.id);
 	});
 
 	//for deserializing the user
-	passport.deserializeUser(function(id, done) {
-		User.findById(id, function(err, user) {
+	passport.deserializeUser(function (id, done) {
+		User.findById(id, function (err, user) {
 			done(err, user);
 		});
 	});
@@ -26,8 +26,8 @@ module.exports = function(passport) {
 		passReqToCallback : true
 	},
 	function(req, username, password, done) {
-		process.nextTick(function() {
-			User.findOne({'local.username' : username}, function(err, user) {
+		process.nextTick(function () {
+			User.findOne({'local.username' : username}, function (err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -39,7 +39,11 @@ module.exports = function(passport) {
 					newUser.local.username = username;
 					newUser.local.password = newUser.generateHash(password);
 
-					newUser.save(function(err) {
+					newUser.channels.pikku2 = false;
+					newUser.channels.tuula62 = false;
+					newUser.admin = false;
+
+					newUser.save(function (err) {
 						if (err) {
 							throw err;
 						}
@@ -57,8 +61,8 @@ module.exports = function(passport) {
 		passReqToCallback : true
 	},
 	function(req, username, password, done) {
-		process.nextTick(function() {
-			User.findOne({'local.username' : username}, function(err, user) {
+		process.nextTick(function () {
+			User.findOne({'local.username' : username}, function (err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -81,10 +85,10 @@ module.exports = function(passport) {
 		callbackURL : configAuth.facebookAuth.callbackURL,
 		passReqToCallback : true
 	},
-	function(token, refreshToken, profile, done) {
-		process.nextTick(function() {
+	function(req, token, refreshToken, profile, done) {
+		process.nextTick(function () {
 			if (!req.user) {
-				User.findOne({'facebook.id' : profile.id}, function(err, user) {
+				User.findOne({'facebook.id' : profile.id}, function (err, user) {
 					if (err) {
 						return done(err);
 					}
@@ -95,11 +99,16 @@ module.exports = function(passport) {
 						var newUser = new User();
 						newUser.facebook.id = profile.id;
 						newUser.facebook.token = token;
-						newUser.facebook.givenName = profile.name.givenName;
-						newUser.facebook.familyName = profile.name.familyName;
-						newUser.facebook.email = profile.emails[0].value;
+						//returns often undefined - take from another source
+						newUser.facebook.givenName = profile.displayName.split(' ')[0];//profile.name.givenName;
+						newUser.facebook.familyName = profile.displayName.split(' ')[1];//profile.name.familyName;
+						newUser.facebook.email = profile.displayName;//profile.emails[0].value;
 
-						newUser.save(function(err) {
+						newUser.channels.pikku2 = false;
+						newUser.channels.tuula62 = false;
+						newUser.admin = false;
+
+						newUser.save(function (err) {
 							if (err) {
 								throw err;
 							}
@@ -113,11 +122,15 @@ module.exports = function(passport) {
 
 				user.facebook.id = profile.id;
 				user.facebook.token = token;
-				newUser.facebook.givenName = profile.name.givenName;
-				newUser.facebook.familyName = profile.name.familyName;
-				user.facebook.email = profile.emails[0].value;
+				user.facebook.givenName = profile.displayName.split(' ')[0];//profile.name.givenName;
+				user.facebook.familyName = profile.displayName.split(' ')[1];//profile.name.familyName;
+				user.facebook.email = profile.displayName;//profile.emails[0].value;
 
-				user.save(function(err) {
+				user.channels.pikku2 = false;
+				user.channels.tuula62 = false;
+				user.admin = false;
+
+				user.save(function (err) {
 					if (err) {
 						throw err;
 					}

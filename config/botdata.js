@@ -7,7 +7,7 @@ var botdata = {
 };
 
 module.exports =  {
-	getData : function() {
+	getData : function () {
 		return botdata;
 	}
 };
