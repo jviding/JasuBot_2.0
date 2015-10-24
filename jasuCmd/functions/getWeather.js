@@ -17,7 +17,7 @@ module.exports = {
   },
   weatherToday: function(callback) {
     location = 'Helsinki';
-    getJsonToday(callback, 0);
+    getJsonToday(callback, 0, url + '' + location + '.json');
   }
 };
 
