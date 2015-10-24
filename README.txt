@@ -8,3 +8,8 @@ JasuBot_2.0
 ./config/botdata.js
 ./config/auth.js
 ./index.js
+
+
+#Usage
+install node_modules: $npm install
+start: $npm start   or   $node index
