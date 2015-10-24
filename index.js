@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var port = 3000;
+var port = 3001;
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var passport = require('passport');
@@ -36,7 +36,7 @@ require('./app/routes')(app, passport);
 
 //launch
 http.listen(port, function(){
-  console.log('Server listening on port: 3000');
+  console.log('Server listening on port: '+port);
 });
 
 //start socket.io

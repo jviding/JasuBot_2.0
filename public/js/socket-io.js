@@ -28,7 +28,7 @@ $('form').submit(function(){
 });
 
 socket.on('chat message', function(msg){
-    if (msg['channel'] === channel) {
+    if (msg['channel'] === channel || msg['channel'] === 'all') {
         var timestamp = createTime(new Date(msg.time));
         var line;
         if (msg.user !== null) {

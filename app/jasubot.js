@@ -1,28 +1,30 @@
 var Bot = require('./../ircBot/bot');
+var Commands = require('./../jasuCmd/main');
 
-module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, quakeChannel) {
+module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, quakeChannel, callback) {
+
+  var cmd = new Commands(botname, function (channel, messages) {
+    messages.forEach(function (message) {
+      var line = {user:null, channel:channel, message:message, time: new Date().getTime()};
+      callback(line);
+      botSays(line);
+    });
+  });
 
   //bot             //nickname, server to connect, channel to join
-  var ircbot = new Bot(botname,ircServer,ircChannel);
-  var quakebot = new Bot(botname,quakeServer,quakeChannel);
-
-  var msgToParent = null;
+  var ircbot = new Bot(botname,ircServer,ircChannel, function (message) {
+    callback(message);
+    cmd.command(message.channel, message.message);
+  });
+  var quakebot = new Bot(botname,quakeServer,quakeChannel, function (message) {
+    callback(message);
+    cmd.command(message.channel, message.message);
+  });
 
   ircbot.kickStart();
-  ircbot.setMessageReader(function (message) {
-    if (msgToParent) {
-      msgToParent(message);
-    }
-  });
-
   quakebot.kickStart();
-  quakebot.setMessageReader(function (message) {
-    if (msgToParent) {
-      msgToParent(message);
-    }
-  });
 
-  function botSays(message, callback) {
+  function botSays(message) {
     try {
       if (message['channel'] === ircChannel) {
         ircbot.writeMessage(message['user'], message['message']);
@@ -30,14 +32,15 @@ module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, q
       else if (message['channel'] === quakeChannel) {
         quakebot.writeMessage(message['user'], message['message']);
       }
+      else if (message['channel'] === 'all') {
+        ircbot.writeMessage(message['user'], message['message']);
+        quakebot.writeMessage(message['user'], message['message']);
+      }
+      cmd.command(message['channel'], message['message']);
     }
     catch (err) {
       console.log('Bot failed to send a message to ' + message['channel'] + '...\n'+err.message);
     }
-  };
-
-  function botSaid(callback) {
-    msgToParent = callback;
   };
 
   function restartBot(channel) {
@@ -62,7 +65,6 @@ module.exports = function Jasubot(botname, ircServer, ircChannel, quakeServer, q
 
   return {
     botSays: botSays,
-    botSaid: botSaid,
     botRestart: restartBot
   }
 

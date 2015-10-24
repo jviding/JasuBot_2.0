@@ -4,7 +4,9 @@ JasuBot
 bot.js
 
 #initialise
-var bot = new Bot("name_here","server_here","channel_here");
+var bot = new Bot("name_here","server_here","channel_here", callback);
+-callback: when a new message is read from the channel, callback is performed with
+the new message as a parameter
 
 
 #commands
@@ -13,15 +15,8 @@ var bot = new Bot("name_here","server_here","channel_here");
 to start the bot and join the channel
  -kickStart();
 
-2. setMessageReader
-used with a callback function, which will be used with a following Json parameter
-var message = {
-	user: 'sender',
-	channel: 'channel_name',
-	message: 'message',
-	time: 'time in milliseconds'
-}
- -setMessageReader(function(message) { *magic* });
+2. disconnect
+to disconnect the bot from the server
 
 3. writeMessage
 used with parameters username and message. Username is sender and message

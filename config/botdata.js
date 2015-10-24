@@ -1,9 +1,9 @@
 var botdata = {
 	botname : 'Jausnator',
 	ircServer : "irc.stealth.net",
-	ircChannel : "#pikku2",
+	ircChannel : "#pikku2a",
  	quakeServer : "irc.quakenet.org",
-	quakeChannel : "#tuula62"
+	quakeChannel : "#tuula62a"
 };
 
 module.exports =  {

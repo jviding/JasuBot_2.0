@@ -12,8 +12,7 @@ var quakeChannel = data.quakeChannel;
 
 module.exports = function Sockets(io) {
 
-  	var Jasubot = new Bot(botname, ircServer, ircChannel, quakeServer, quakeChannel);
-    Jasubot.botSaid(function (item) {
+    var Jasubot = new Bot(botname, ircServer, ircChannel, quakeServer, quakeChannel, function (item) {
       io.emit('chat message', item);
       saveMsg(item);
     });
