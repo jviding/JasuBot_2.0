@@ -4,4 +4,7 @@ JasuBot_2.0
 -Access to IRC chat via browser
 
 #Botdata
--Modify file: ./config/botdata.js
+-Modify files: 
+./config/botdata.js
+./config/auth.js
+./index.js
