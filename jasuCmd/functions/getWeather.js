@@ -1,31 +1,34 @@
 var DateStr = require('./dateStr');
 var http = require('http');
 
-var url = 'http://api.wunderground.com/api/9a7a2a9326a64bf5/forecast/q/CA/Helsinki.json';
+var url = 'http://api.wunderground.com/api/9a7a2a9326a64bf5/forecast/q/CA/';
+var urlRu = 'http://api.wunderground.com/api/9a7a2a9326a64bf5/forecast/q/RU/';
 var location = 'Helsinki';
 
 module.exports = {
-  weatherToday: function(callback) {
-    getJsonToday(callback, 0);
+  weatherStory: function(city, callback) {
+    location = city;
+    if (location === 'Saint_Petersburg') {
+      getJsonToday(callback, 1, urlRu + '' + location + '.json');
+    }
+    else {
+      getJsonToday(callback, 1, url + '' + location + '.json');
+    }
   },
-  weatherStory: function(callback) {
-    getJsonToday(callback, 1);
+  weatherToday: function(callback) {
+    location = 'Helsinki';
+    getJsonToday(callback, 0);
   }
 };
 
-function getJsonToday(callback, opt) {
-	http.get(url, function(res) {
+function getJsonToday(callback, opt, site) {
+	http.get(site, function(res) {
     	var body = '';
     	res.on('data', function(chunk) {
         	body += chunk;
     	});
     	res.on('end', function() {
-        try {
           createStringArray(JSON.parse(body), opt, callback);
-        }
-        catch(err) {
-          callback(['No weather data available.']);
-        }
     	});
     }).on('error', function(e) {
       	console.log("Got error: ", e);
@@ -47,7 +50,7 @@ function createStringArray(data, opt, callback) {
     array.push("   Min:  "+checkPlus(daylow)+"°C    Max:  "+checkPlus(dayhigh)+"°C");
     array.push("   Wind: "+toMPS(windave)+"m/s   Max:  "+toMPS(windmax)+"m/s");
     array.push("   Humidity: "+humidity+"%");
-    array.push("Type 'jasu mikä sää' for more...")
+    array.push("Type 'jasu mikä sää <City>' for more...")
     callback(array);
   }
   else {

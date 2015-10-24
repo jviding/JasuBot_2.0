@@ -30,9 +30,9 @@ module.exports = function Commands(botname, callback) {
 	  	});
 	};
 
-	function printWeatherToIRC(channel) {
+	function printWeatherToIRC(city, channel) {
 		var lines = [];
-	  	Weather.weatherStory(function (result) {
+	  	Weather.weatherStory(city, function (result) {
 	    	result.forEach(function (item) {
 	    	  	lines.push(item);
 	    	});
@@ -62,12 +62,19 @@ module.exports = function Commands(botname, callback) {
 	    if(args[0] === 'jasu' && args[1] === 'mitä' && args[2] === 'ruokaa') {
 	      printMenuToIRC(channel);
 	    }
-	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää') {
-	      printWeatherToIRC(channel);
+	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3] === undefined) {
+	      printWeatherToIRC('Helsinki', channel);
+	    }
+	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3].toLowerCase() !== 'pietari') {
+	      printWeatherToIRC(args[3].toLowerCase().charAt(0).toUpperCase(), channel);
+	    }
+	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3].toLowerCase() === 'pietari') {
+	      printWeatherToIRC('Saint_Petersburg', channel);
 	    }
 	    else if(args[0] === 'jasu' && args[1] === 'help') {
 	    	var lines = [];
 	      	lines.push("'jasu mikä sää' for weather information.");
+	      	lines.push("'jasu mikä sää <City>' for specific weather information.");
 	      	lines.push("'jasu mitä ruokaa' for lunch information.");
 	      	botsay(channel, lines);
 	    }
