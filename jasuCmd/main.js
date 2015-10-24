@@ -66,7 +66,8 @@ module.exports = function Commands(botname, callback) {
 	      printWeatherToIRC('Helsinki', channel);
 	    }
 	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3].toLowerCase() !== 'pietari') {
-	      printWeatherToIRC(args[3].toLowerCase().charAt(0).toUpperCase(), channel);
+	      var city = args[3].charAt(0).toUpperCase() + '' + args[3].toLowerCase().substr(1);
+	      printWeatherToIRC(city, channel);
 	    }
 	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3].toLowerCase() === 'pietari') {
 	      printWeatherToIRC('Saint_Petersburg', channel);

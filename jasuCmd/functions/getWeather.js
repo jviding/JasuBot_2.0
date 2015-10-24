@@ -55,10 +55,13 @@ function createStringArray(data, opt, callback) {
   }
   else {
     console.log('Creating weather today.');
+    if (data['forecast'] === undefined) {
+      return callback(['Weather in ' + location + ' unavailable.']);
+    }
     var firstDay = data['forecast']['txt_forecast']['forecastday'][0];
     var night = data['forecast']['txt_forecast']['forecastday'][1];
     var secondDay = data['forecast']['txt_forecast']['forecastday'][2];
-    array.push("Beep! Weather requested...");
+    array.push("Beep! Weather in " + location + " requested...");
     array.push(firstDay['title']+': \n'+firstDay['fcttext_metric']);
     array.push(night['title']+': \n'+night['fcttext_metric']);
     array.push(secondDay['title']+': \n'+secondDay['fcttext_metric']);
