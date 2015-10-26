@@ -60,10 +60,10 @@ module.exports = function Sockets(io) {
 
 	//send message to IRC and save to database
 	function sayAndSave(msg) {
+    saveMsg(msg);
     if (msg.channel != 'jasubot') {
       Jasubot.botSays(msg);
     }
-      saveMsg(msg);
 	};
 
   function saveMsg(msg) {
@@ -81,8 +81,8 @@ module.exports = function Sockets(io) {
           callback(message);
         });
         end();
-      }).where('channel', channel).skip(toSkip);
-    }).where('channel', channel);
+      }).where({$or : [{'channel': channel}, {'channel': 'all'}]}).skip(toSkip);
+    }).where({$or : [{'channel': channel}, {'channel': 'all'}]});
   };
 
   function findUsers(callback) {
