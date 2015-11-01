@@ -58,18 +58,18 @@ module.exports = function Commands(botname, callback) {
 	};
 
 	function readCommand(channel, inp) {
-		var args = inp.split(' ');
+		var args = inp.toLowerCase().split(' ');
 	    if(args[0] === 'jasu' && args[1] === 'mitä' && args[2] === 'ruokaa') {
 	      printMenuToIRC(channel);
 	    }
 	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3] === undefined) {
 	      printWeatherToIRC('Helsinki', channel);
 	    }
-	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3].toLowerCase() !== 'pietari') {
+	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3] !== 'pietari') {
 	      var city = args[3].charAt(0).toUpperCase() + '' + args[3].toLowerCase().substr(1);
 	      printWeatherToIRC(city, channel);
 	    }
-	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3].toLowerCase() === 'pietari') {
+	    else if(args[0] === 'jasu' && args[1] === 'mikä' && args[2] === 'sää' && args[3] === 'pietari') {
 	      printWeatherToIRC('Saint_Petersburg', channel);
 	    }
 	    else if(args[0] === 'jasu' && args[1] === 'help') {
